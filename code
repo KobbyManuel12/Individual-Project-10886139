@@ -1,0 +1,102 @@
+import java.util.*;
+
+public class InventoryManagementSystem {
+private Map<String, List<Good>> goodsByCategory;
+private Map<String, Vendor> vendors;
+private List<Bill> bills;
+private List<IssuedGood> issuedGoods;
+
+public InventoryManagementSystem() {
+goodsByCategory = new HashMap<>();
+vendors = new HashMap<>();
+bills = new ArrayList<>();
+issuedGoods = new ArrayList<>();
+}
+
+public void addGood(String category, Good good) {
+List<Good> goods = goodsByCategory.getOrDefault(category, new ArrayList<>());
+goods.add(good);
+goodsByCategory.put(category, goods);
+}
+
+public void addVendor(Vendor vendor) {
+vendors.put(vendor.getId(), vendor);
+}
+
+public void addBill(Bill bill) {
+bills.add(bill);
+}
+
+public void addIssuedGood(IssuedGood issuedGood) {
+issuedGoods.add(issuedGood);
+}
+
+public List<Good> getGoodsByCategory(String category) {
+return goodsByCategory.getOrDefault(category, new ArrayList<>());
+}
+
+public Collection<Vendor> getVendors() {
+return vendors.values();
+}
+
+public List<Bill> getBills() {
+return bills;
+}
+
+public List<IssuedGood> getIssuedGoods() {
+return issuedGoods;
+}
+
+public static void main(String[] args) {
+InventoryManagementSystem system = new InventoryManagementSystem();
+
+Good good1 = new Good("Bread", 10, 100);
+Good good2 = new Good("Milk", 20, 200);
+Good good3 = new Good("Eggs", 30, 300);
+
+system.addGood("Bakery", good1);
+system.addGood("Dairy Products", good2);
+system.addGood("Dairy Products", good3);
+
+Vendor vendor1 = new Vendor("Vendor 1", "123 Main Street");
+Vendor vendor2 = new Vendor("Vendor 2", "456 Elm Street");
+
+system.addVendor(vendor1);
+system.addVendor(vendor2);
+
+Bill bill1 = new Bill(1000, vendor1);
+Bill bill2 = new Bill(2000, vendor2);
+
+system.addBill(bill1);
+system.addBill(bill2);
+
+IssuedGood issuedGood1 = new IssuedGood(good1, bill1, 10);
+IssuedGood issuedGood2 = new IssuedGood(good2, bill2, 20);
+
+system.addIssuedGood(issuedGood1);
+system.addIssuedGood(issuedGood2);
+
+System.out.println("Goods:");
+for (List<Good> goods : system.goodsByCategory.values()) {
+for (Good good : goods) {
+System.out.println(good);
+}
+}
+
+System.out.println("Vendors:");
+for (Vendor vendor : system.getVendors()) {
+System.out.println(vendor);
+}
+
+System.out.println("Bills:");
+for (Bill bill : system.getBills()) {
+System.out.println(bill);
+}
+
+System.out.println("Issued goods:");
+for (IssuedGood issuedGood : system.getIssuedGoods()) {
+System.out.println(issuedGood);
+}
+}
+}
+
